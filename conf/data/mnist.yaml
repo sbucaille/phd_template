@@ -1,0 +1,5 @@
+mnist:
+   _target_: torchvision.datasets.MNIST
+   root: src/data/public/MNIST
+   train: true
+   download: true

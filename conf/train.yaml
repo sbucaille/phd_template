@@ -1,1 +1,8 @@
-test: "test"
+defaults:
+  - _self_
+  - data : mnist
+
+dataloader :
+  batch_size : 16
+  num_workers: 8
+  shuffle: true
