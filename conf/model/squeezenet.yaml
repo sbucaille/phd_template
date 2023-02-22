@@ -1,0 +1,4 @@
+_target_: torch.hub.load
+repo_or_dir: 'pytorch/vision:v0.10.0'
+model: 'squeezenet1_0'
+pretrained: false

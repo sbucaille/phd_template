@@ -1,8 +1,11 @@
 defaults:
   - _self_
-  - data : mnist
+  - data : fake
+  - model : squeezenet
 
 dataloader :
+  _target_: torch.utils.data.DataLoader
   batch_size : 16
   num_workers: 8
   shuffle: true
+
