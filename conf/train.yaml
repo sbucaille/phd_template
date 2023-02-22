@@ -2,10 +2,20 @@ defaults:
   - _self_
   - data : fake
   - model : squeezenet
+  - task : base
 
 dataloader :
   _target_: torch.utils.data.DataLoader
   batch_size : 16
   num_workers: 8
   shuffle: true
+
+trainer:
+  logger: False
+  max_epochs: 3
+  accelerator: "gpu"
+  devices: 1
+
+task:
+  learning_rate: 0.1
 
