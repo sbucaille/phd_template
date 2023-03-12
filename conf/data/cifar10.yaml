@@ -1,0 +1,5 @@
+_target_: torchvision.datasets.CIFAR10
+
+train: true
+root: /dev/shm
+download: true

@@ -1,1 +1,9 @@
-_target_: torchvision.datasets.FakeData
+_target_: data.fake.FakeDataModule
+
+size: 1000
+image_size : [3, 224, 224]
+num_classes: 100
+
+batch_size: ${dataloader.batch_size}
+num_workers: ${dataloader.num_workers}
+shuffle: ${dataloader.shuffle}
