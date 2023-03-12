@@ -1,0 +1,14 @@
+defaults:
+  - data: fake
+  - model: convnextv2
+  - task: base
+  - _self_
+
+#model_path: ${logs.dir}/weights.pth
+
+logs:
+  dir: logs/convnextv2
+
+hydra:
+  run:
+    dir: ${logs.dir}

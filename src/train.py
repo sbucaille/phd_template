@@ -11,6 +11,7 @@ from pytorch_lightning import Trainer, Callback
 from torch import nn
 from torch.utils.data import Dataset, DataLoader
 from torchvision.transforms import ToTensor, Compose
+import timm
 
 from src.data.base import BaseDataModule
 from src.tasks.base import BaseTask
