@@ -1,13 +1,18 @@
 import os
+import time
+from pathlib import Path
+from typing import List
 
 import pytorch_lightning
+import torch
 from omegaconf import DictConfig, OmegaConf
 import hydra
-from pytorch_lightning import Trainer
+from pytorch_lightning import Trainer, Callback
 from torch import nn
 from torch.utils.data import Dataset, DataLoader
 from torchvision.transforms import ToTensor, Compose
 
+from src.data.base import BaseDataModule
 from src.tasks.base import BaseTask
 
 os.environ['HYDRA_FULL_ERROR'] = '1'
@@ -17,20 +22,27 @@ os.environ['HYDRA_FULL_ERROR'] = '1'
 def my_app(cfg: DictConfig) -> None:
     print(OmegaConf.to_yaml(cfg))
 
-    dataset: Dataset = hydra.utils.instantiate(cfg.data, transform=Compose([ToTensor()]))
-    dataloader: DataLoader = hydra.utils.instantiate(
-        cfg.dataloader,
-        dataset=dataset
-    )
+    torch.set_float32_matmul_precision('high')
+
+    datamodule: BaseDataModule = hydra.utils.instantiate(cfg.data)
+
     model: nn.Module = hydra.utils.instantiate(cfg.model)
+    # model = torch.compile(model)
 
     task: BaseTask = hydra.utils.instantiate(
         cfg.task,
         model=model
     )
 
-    trainer = Trainer(**cfg.trainer)
-    trainer.fit(task, dataloader)
+    callbacks: List[Callback] = [hydra.utils.instantiate(callback) for callback in cfg.callbacks.values()]
+    print(callbacks)
+    trainer = Trainer(**cfg.trainer, callbacks=callbacks)
+    if cfg.resume:
+        trainer.fit(task, datamodule, ckpt_path=Path(cfg.callbacks.model_checkpoint.dirpath) / "last.ckpt")
+    else :
+        trainer.fit(task, datamodule)
+
+    task.save_model(cfg.model_path)
 
 
 if __name__ == "__main__":
