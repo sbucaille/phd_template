@@ -1,12 +1,13 @@
 defaults:
+  - pipeline
   - _self_
-  - data : fake
-  - model : squeezenet
-  - task : base
+  - callbacks:
+      - model_checkpoint
 
-dataloader :
-  _target_: torch.utils.data.DataLoader
-  batch_size : 16
+resume: false
+
+dataloader:
+  batch_size: 64
   num_workers: 8
   shuffle: true
 
@@ -19,3 +20,6 @@ trainer:
 task:
   learning_rate: 0.1
 
+hydra:
+  run:
+    dir: ${logs.dir}
