@@ -1,0 +1,8 @@
+model :
+  _target_ : benchmark.model.ModelBenchmark
+  model : ${model}
+  weights_path: ${logs.dir}/weights.pth
+  input_size: ${data.image_size}
+  device:
+    _target_: torch.device
+    type: 'cuda'

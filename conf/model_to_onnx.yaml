@@ -1,0 +1,31 @@
+defaults:
+  - pipeline
+  - _self_
+
+onnx_path : ${logs.dir}/model.onnx
+batch_size: 1
+input_size : ${data.image_size}
+export_params : true
+input_names: ['input']
+output_names: ['output']
+dynamic_shapes:
+  input :
+    0 : 'batch_size'
+  output : [0]
+opset_version: 16
+
+test_onnx: true
+
+providers :
+  - name : CUDAExecutionProvider
+    device_type: cuda
+    parameters :
+      device_id : 0
+      arena_extend_strategy : kNextPowerOfTwo
+      gpu_mem_limit : 2147483648
+      cudnn_conv_algo_search : EXHAUSTIVE
+      do_copy_in_default_stream : True
+  - name : TensorRTExecutionProvider
+    parameters :
+      trt_max_workspace_size : 2147483648,
+      trt_fp16_enable : true

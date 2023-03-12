@@ -1,0 +1,10 @@
+onnx:
+  _target_: benchmark.onnx.OnnxBenchmark
+  onnx_path: ${logs.dir}/model.onnx
+  providers:
+#    - 'TensorrtExecutionProvider'
+    - 'CUDAExecutionProvider'
+  device: "cuda"
+  device_index: 0
+#  input_size: ${data.image_size}
+#  output_size: [${data.num_classes}]

@@ -1,0 +1,13 @@
+defaults:
+  - pipeline
+  - _self_
+
+onnx_path : ${logs.dir}/model.onnx
+tensorrt_path: ${logs.dir}/model.trt
+input_size : ${data.image_size}
+
+engine_precision: 'FP16'
+batch_size:
+  min : 1
+  opt : 1
+  max : 1

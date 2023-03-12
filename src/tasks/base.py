@@ -38,3 +38,5 @@ class BaseTask(pl.LightningModule):
         self.log('train_loss', loss)
         return loss
 
+    def save_model(self, path):
+        torch.save(self.model.state_dict(), path)

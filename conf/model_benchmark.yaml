@@ -1,0 +1,8 @@
+defaults:
+  - pipeline
+  - benchmarks:
+      - model
+#      - onnx
+      - tensorrt
+  - _self_
+
