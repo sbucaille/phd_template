@@ -5,8 +5,6 @@ from torch.utils.benchmark import Timer
 
 from src.benchmark.base import Benchmark
 
-from cuda import cuda
-import pycuda.autoinit
 import tensorrt as trt
 
 
