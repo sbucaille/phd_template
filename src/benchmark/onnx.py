@@ -2,7 +2,6 @@ from pathlib import Path
 from typing import List, Tuple
 
 import numpy as np
-import onnx
 from torch.utils.benchmark import Timer
 
 from src.benchmark.base import Benchmark
@@ -29,7 +28,6 @@ class OnnxBenchmark(Benchmark):
         self.load_onnx()
 
     def load_onnx(self):
-        self.onnx = onnx.load(self.onnx_path)
         providers = [
             ('CUDAExecutionProvider', {
                 'device_id': 0,
@@ -39,15 +37,15 @@ class OnnxBenchmark(Benchmark):
                 'do_copy_in_default_stream': True,
             })]
         self.session = rt.InferenceSession(self.onnx_path, providers=providers)
-        onnx.checker.check_model(self.onnx)
 
 
     def allocate_io_bindings(self):
         io_binding = self.session.io_binding()
 
         for input in self.session.get_inputs():
+            shape = [1 if isinstance(dimension, str) else dimension for dimension in input.shape]
             input_tensor = torch.rand(
-                input.shape,
+                shape,
                 dtype=torch.float32,
                 device=self.device
             )
@@ -56,13 +54,14 @@ class OnnxBenchmark(Benchmark):
                 device_type=self.device,
                 device_id=self.device_index,
                 element_type=np.float32,
-                shape=input.shape,
+                shape=shape,
                 buffer_ptr=input_tensor.data_ptr()
             )
 
         for output in self.session.get_outputs():
+            shape = [1 if isinstance(dimension, str) else dimension for dimension in output.shape]
             output_tensor = torch.rand(
-                output.shape,
+                shape,
                 dtype=torch.float32,
                 device=self.device
             )
@@ -71,7 +70,7 @@ class OnnxBenchmark(Benchmark):
                 device_type=self.device,
                 device_id=self.device_index,
                 element_type=np.float32,
-                shape=output.shape,
+                shape=shape,
                 buffer_ptr=output_tensor.data_ptr()
             )
 
