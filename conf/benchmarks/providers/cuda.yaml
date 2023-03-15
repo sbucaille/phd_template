@@ -1,0 +1,9 @@
+cuda :
+  name: CUDAExecutionProvider
+  device_type: cuda
+  parameters:
+    device_id: 0
+    arena_extend_strategy: kNextPowerOfTwo
+    gpu_mem_limit: 2147483648
+    cudnn_conv_algo_search: EXHAUSTIVE
+    do_copy_in_default_stream: True
