@@ -1,5 +1,5 @@
 tensorrt :
-  name: TensorRTExecutionProvider
+  name: TensorrtExecutionProvider
   parameters:
-    trt_max_workspace_size: 2147483648,
+#    trt_max_workspace_size: 2147483648,
     trt_fp16_enable: true

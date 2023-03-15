@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import List, Tuple
 
 import numpy as np
+from omegaconf import OmegaConf
 from torch.utils.benchmark import Timer
 
 from src.benchmark.base import Benchmark
@@ -29,10 +30,9 @@ class OnnxBenchmark(Benchmark):
 
     def load_onnx(self):
         providers = [
-            (provider.name, provider.parameters) for provider in self.providers
+            (provider.name, OmegaConf.to_container(provider.parameters, resolve=True)) for provider in self.providers
         ]
         self.session = rt.InferenceSession(self.onnx_path, providers=providers)
-
 
     def allocate_io_bindings(self):
         io_binding = self.session.io_binding()
@@ -79,4 +79,3 @@ class OnnxBenchmark(Benchmark):
             globals={'self': self, 'io_binding': io_binding}
         )
         print(timer.timeit(n))
-

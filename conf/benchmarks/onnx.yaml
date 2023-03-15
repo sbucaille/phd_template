@@ -1,7 +1,7 @@
 defaults:
   - providers :
       - tensorrt
-      - cuda
+#      - cuda
 
 onnx:
   _target_: benchmark.onnx.OnnxBenchmark
