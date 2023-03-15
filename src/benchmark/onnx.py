@@ -28,21 +28,9 @@ class OnnxBenchmark(Benchmark):
         self.load_onnx()
 
     def load_onnx(self):
-        # providers = [
-        #     ('CUDAExecutionProvider', {
-        #         'device_id': 0,
-        #         'arena_extend_strategy': 'kNextPowerOfTwo',
-        #         'gpu_mem_limit': 2 * 1024 * 1024 * 1024,
-        #         'cudnn_conv_algo_search': 'EXHAUSTIVE',
-        #         'do_copy_in_default_stream': True,
-        #     })]
         providers = [
             (provider.name, provider.parameters) for provider in self.providers
         ]
-        providers = [
-            ('TensorrtExecutionProvider', {
-                'trt_fp16_enable' : False
-            })]
         self.session = rt.InferenceSession(self.onnx_path, providers=providers)
 
 
