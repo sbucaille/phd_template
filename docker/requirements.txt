@@ -1,0 +1,9 @@
+torch
+torchaudio
+torchvision
+transformers[onnx]
+git+https://github.com/rwightman/pytorch-image-models.git
+pytorch-lightning
+hydra-core
+onnx
+onnxruntime-gpu==1.14
