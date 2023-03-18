@@ -21,7 +21,7 @@ def my_app(cfg: DictConfig) -> None:
 
     benchmarks : List[Benchmark] = [hydra.utils.instantiate(benchmark) for benchmark in cfg.benchmarks.values()]
     for benchmark in benchmarks:
-        benchmark.benchmark()
+        benchmark.benchmark_inference_time(cfg.number_run)
 
 
 

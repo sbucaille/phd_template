@@ -1,5 +1,5 @@
 
 class Benchmark:
 
-    def benchmark(self, n: int = 100):
+    def benchmark_inference_time(self, n: int = 100):
         raise NotImplemented

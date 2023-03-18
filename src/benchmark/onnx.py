@@ -71,7 +71,7 @@ class OnnxBenchmark(Benchmark):
 
         return io_binding
 
-    def benchmark(self, n: int = 100):
+    def benchmark_inference_time(self, n: int = 100):
         io_binding = self.allocate_io_bindings()
         self.session.run_with_iobinding(io_binding)
         timer = Timer(

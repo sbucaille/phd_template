@@ -1,4 +1,5 @@
 from pathlib import Path
+from time import sleep
 
 import torch
 from torch.utils.benchmark import Timer
@@ -44,10 +45,11 @@ class TensorRTBenchmark(Benchmark):
 
         return tensors, pointers, in_bindings, out_bindings
 
-    def benchmark(self, n: int = 100):
+    def benchmark_inference_time(self, n: int = 100, monitor_gpu_memory: bool = False):
         tensors, pointers, in_bindings, out_bindings = self.allocate_io_bindings()
         timer = Timer(
             "self.context.execute_async_v2(pointers, torch.cuda.current_stream().cuda_stream)",
             globals={'self': self, 'pointers': pointers}
         )
-        print(timer.timeit(n))
+        measurement = timer.timeit(n)
+        print(measurement)

@@ -25,7 +25,7 @@ class ModelBenchmark(Benchmark):
         self.model.to(self.device)
         self.model.eval()
 
-    def benchmark(self, n: int = 100):
+    def benchmark_inference_time(self, n: int = 100):
         input = torch.rand(*self.input_size).unsqueeze(dim=0).to(self.device)
         timer = Timer(
             "self.model(input)",

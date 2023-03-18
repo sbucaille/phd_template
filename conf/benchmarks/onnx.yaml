@@ -1,13 +1,12 @@
-defaults:
-  - providers :
-      - tensorrt
-#      - cuda
-
 onnx:
   _target_: benchmark.onnx.OnnxBenchmark
   onnx_path: ${logs.dir}/model.onnx
-  providers: ${oc.dict.values:benchmarks.providers}
   device: "cuda"
   device_index: 0
-#  input_size: ${data.image_size}
-#  output_size: [${data.num_classes}]
+  providers:
+    - name: "CUDAExecutionProvider"
+      parameters:
+        arena_extend_strategy: "kSameAsRequested"
+    - name: "TensorrtExecutionProvider"
+      parameters:
+        trt_fp16_enable: true

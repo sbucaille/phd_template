@@ -2,7 +2,9 @@ defaults:
   - pipeline
   - benchmarks:
       - model
-#      - onnx
+      - onnx
       - tensorrt
   - _self_
 
+number_run: 100
+monitor_gpu_memory_every: 0.01
