@@ -7,3 +7,4 @@ pytorch-lightning
 hydra-core
 onnx
 onnxruntime-gpu==1.14
+cuda-python

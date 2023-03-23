@@ -11,7 +11,7 @@ RUN apt install python3.10 -y
 RUN apt install python3-pip -y
 
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt --no-cache
 
 ARG USER_ID
 ARG GROUP_ID

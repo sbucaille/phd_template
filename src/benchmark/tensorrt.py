@@ -57,7 +57,7 @@ class TensorRTBenchmark(Benchmark):
         for _ in range(int(n * self.warmup)):
             self.context.execute_async_v2(pointers, self.stream)
         timer = Timer(
-            "self.context.execute_async_v2(pointers, torch.cuda.current_stream().cuda_stream)",
+            "self.context.execute_async_v2(pointers, self.stream)",
             globals={'self': self, 'pointers': pointers}
         )
         measurement = timer.timeit(n)
