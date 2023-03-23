@@ -1,3 +1,4 @@
 tensorrt:
   _target_: benchmark.tensorrt.TensorRTBenchmark
   tensorrt_path: ${logs.dir}/model.trt
+  warmup: 0.25
