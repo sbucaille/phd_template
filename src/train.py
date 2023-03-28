@@ -14,6 +14,7 @@ from torchvision.transforms import ToTensor, Compose
 import timm
 
 from src.data.base import BaseDataModule
+from src.models import ModelWrapper
 from src.tasks.base import BaseTask
 
 os.environ['HYDRA_FULL_ERROR'] = '1'
@@ -27,7 +28,8 @@ def my_app(cfg: DictConfig) -> None:
 
     datamodule: BaseDataModule = hydra.utils.instantiate(cfg.data)
 
-    model: nn.Module = hydra.utils.instantiate(cfg.model)
+    model_wrapper : ModelWrapper = hydra.utils.instantiate(cfg.model_wrapper)
+    model = model_wrapper.model
     # model = torch.compile(model)
 
     task: BaseTask = hydra.utils.instantiate(
@@ -38,12 +40,12 @@ def my_app(cfg: DictConfig) -> None:
     callbacks: List[Callback] = [hydra.utils.instantiate(callback) for callback in cfg.callbacks.values()]
     print(callbacks)
     trainer = Trainer(**cfg.trainer, callbacks=callbacks)
-    if cfg.resume:
-        trainer.fit(task, datamodule, ckpt_path=Path(cfg.callbacks.model_checkpoint.dirpath) / "last.ckpt")
-    else :
-        trainer.fit(task, datamodule)
+    # if cfg.resume:
+    #     trainer.fit(task, datamodule, ckpt_path=Path(cfg.callbacks.model_checkpoint.dirpath) / "last.ckpt")
+    # else :
+    #     trainer.fit(task, datamodule)
 
-    task.save_model(cfg.model_path)
+    task.save_model(cfg.model_paths.weights)
 
 
 if __name__ == "__main__":

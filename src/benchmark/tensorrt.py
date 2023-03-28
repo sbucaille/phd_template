@@ -1,13 +1,15 @@
 from pathlib import Path
 from time import sleep
 
-import torch
-from torch.utils.benchmark import Timer
 
+import tensorrt as trt
+trt.init_libnvinfer_plugins(None, '')
 from src.benchmark.base import Benchmark
 
+import torch
+from torch.utils.benchmark import Timer
 from cuda import cuda
-import tensorrt as trt
+
 
 
 class TensorRTBenchmark(Benchmark):

@@ -5,6 +5,7 @@ defaults:
       - model_checkpoint
 
 resume: false
+state_dict: ${logs.dir}/pips.pth
 
 dataloader:
   batch_size: 64

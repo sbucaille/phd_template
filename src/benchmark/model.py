@@ -1,34 +1,23 @@
-from pathlib import Path
-from typing import Tuple
-
-import torch
-from torch import nn
 from torch.utils.benchmark import Timer
 
 from src.benchmark.base import Benchmark
+from src.models import ModelWrapper
 
 
 class ModelBenchmark(Benchmark):
 
     def __init__(
             self,
-            model: nn.Module,
-            weights_path: Path,
-            input_size: Tuple[int, int, int],
-            device: torch.device
+            model_wrapper: ModelWrapper,
     ):
-        self.model = model
-        self.weights_path = weights_path
-        # self.model.load_state_dict(torch.load(self.weights_path))
-        self.input_size = input_size
-        self.device = device
-        self.model.to(self.device)
+        self.model_wrapper = model_wrapper
+        self.model = model_wrapper.model
         self.model.eval()
 
     def benchmark_inference_time(self, n: int = 100):
-        input = torch.rand(*self.input_size).unsqueeze(dim=0).to(self.device)
+        _, inputs = self.model_wrapper.generate_inputs()
         timer = Timer(
-            "self.model(input)",
-            globals={'self': self, 'input': input}
+            "self.model(*input)",
+            globals={'self': self, 'input': inputs}
         )
         print(timer.timeit(n))

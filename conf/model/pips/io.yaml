@@ -1,0 +1,26 @@
+# @package @_global_
+input:
+  require_custom_generation: true
+  batch_size: 1
+  num_frames: 8
+  num_points: 256
+  height: 360
+  width: 640
+  tensors:
+    - name: xys
+      size:
+        - ${....batch_size}
+        - ${....num_points}
+        - 2
+    - name: rgbs
+      size:
+        - 1
+        - ${....num_frames}
+        - 3
+        - ${....height}
+        - ${....width}
+output:
+  tensors:
+    - name: coordinates_predictions
+    - name: coordinates_predictions2
+    - name: visibility_probability

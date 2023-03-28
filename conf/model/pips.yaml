@@ -1,0 +1,25 @@
+defaults:
+  - pips/encoder@encoder
+  - pips/delta@delta_block
+
+_target_: src.models.pips.Pips
+
+S: 8
+stride: 8
+hidden_dim: 256
+latent_dim: 128
+corr_levels: 4
+corr_radius: 3
+
+encoder:
+  output_dim: ${..latent_dim}
+  normalization_function: 'instance'
+  dropout: 0.0
+  stride: ${..stride}
+
+delta_block:
+  input_dim: ${..latent_dim}
+  hidden_dim: 512
+  corr_levels: ${..corr_levels}
+  corr_radius: ${..corr_radius}
+  S: ${..S}

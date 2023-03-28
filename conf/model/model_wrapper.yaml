@@ -1,0 +1,8 @@
+# @package model_wrapper
+_target_: src.models.ModelWrapper
+model : ${model}
+input: ${input}
+output: ${output}
+device:
+  _target_: torch.device
+  type : ${device}

@@ -1,13 +1,32 @@
 defaults:
   - data: fake
-  - model: convnextv2
+  - model: pips
   - task: base
+  - model/pips/io
+  - model/model_wrapper
   - _self_
+#
+#input:
+#  require_custom_generation: false
+#  tensors:
+#    - name: image
+#      size:
+#        - 1
+#        - 3
+#        - 224
+#        - 224
+#output:
+#  tensors:
+#    - name: features
 
-#model_path: ${logs.dir}/weights.pth
+device: "cuda"
+model_paths:
+  weights: ${logs.dir}/weights.pth
+  onnx: ${logs.dir}/model.onnx
+  tensorrt: ${logs.dir}/model.trt
 
 logs:
-  dir: logs/convnextv2
+  dir: logs/pips
 
 hydra:
   run:

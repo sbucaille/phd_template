@@ -11,7 +11,8 @@ RUN apt install python3.10 -y
 RUN apt install python3-pip -y
 
 COPY requirements.txt .
-RUN pip install -r requirements.txt --no-cache
+RUN pip install -r requirements.txt
+RUN pip install onnxruntime-gpu==1.14
 
 ARG USER_ID
 ARG GROUP_ID

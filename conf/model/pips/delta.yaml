@@ -1,0 +1,6 @@
+_target_: src.models.pips.DeltaBlock
+input_dim: 128
+hidden_dim: 512
+corr_levels: 4
+corr_radius: 3
+S: 8

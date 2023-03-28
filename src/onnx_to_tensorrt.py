@@ -30,23 +30,15 @@ def my_app(cfg: DictConfig) -> None:
             exit()
         print("Succeeded parsing .onnx file!")
 
-    input = network.get_input(0)
-    print(input.name)
+    for i in range(network.num_inputs):
+        input = network.get_input(i)
+        print(input.name)
+        print(input.shape)
 
-    if cfg.batch_size is not None:
-        profile_shape_min = (cfg.batch_size.min, cfg.input_size[0], cfg.input_size[1], cfg.input_size[2])
-        profile_shape_opt = (cfg.batch_size.opt, cfg.input_size[0], cfg.input_size[1], cfg.input_size[2])
-        profile_shape_max = (cfg.batch_size.max, cfg.input_size[0], cfg.input_size[1], cfg.input_size[2])
-    else:
-        profile_shape_min = (cfg.input_size[0], cfg.input_size[1], cfg.input_size[2])
-        profile_shape_opt = (cfg.input_size[0], cfg.input_size[1], cfg.input_size[2])
-        profile_shape_max = (cfg.input_size[0], cfg.input_size[1], cfg.input_size[2])
-
-    print(profile_shape_opt)
-    profile.set_shape(input.name,
-                      profile_shape_min,
-                      profile_shape_opt,
-                      profile_shape_max)
+        profile.set_shape(input.name,
+                          input.shape,
+                          input.shape,
+                          input.shape)
     config.add_optimization_profile(profile)
 
     engine = builder.build_serialized_network(network, config)

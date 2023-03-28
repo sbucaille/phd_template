@@ -6,7 +6,7 @@ onnx_path : ${logs.dir}/model.onnx
 tensorrt_path: ${logs.dir}/model.trt
 input_size : ${data.image_size}
 
-engine_precision: 'FP16'
+engine_precision:
 batch_size:
   min : 1
   opt : 1
